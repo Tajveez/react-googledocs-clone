@@ -14,7 +14,7 @@ export default function TextEditor() {
         // change2
     }, [])
     return (
-        <div id="container" ref={wrapperRef}>
+        <div className="container" ref={wrapperRef}>
             Text Editor
         </div>
     )
