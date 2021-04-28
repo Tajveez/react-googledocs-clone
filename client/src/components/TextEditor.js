@@ -1,6 +1,8 @@
-import {useCallback} from 'react'
+import { useCallback, useEffect } from 'react'
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
+import { io } from 'socket.io-client'
+
 export default function TextEditor() {
     const TOOLBAR_OPTIONS = [
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -12,10 +14,18 @@ export default function TextEditor() {
         [{ align: [] }],
         ["image", "blockquote", "code-block"],
         ["clean"],
-      ]
-      
+    ]
+
+    useEffect(() => {
+        const socket = io('http://localhost:3001')
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
+
     const wrapperRef = useCallback((wrapper) => {
-        if(wrapper == null) return
+        if (wrapper == null) return
         wrapper.innerHTML = ''
         const editor = document.createElement('div')
         wrapper.append(editor)
@@ -28,9 +38,10 @@ export default function TextEditor() {
 
         // change2
     }, [])
-    return (
-        <div className="container" ref={wrapperRef}>
-            Text Editor
-        </div>
+    return ( <
+        div className = "container"
+        ref = { wrapperRef } >
+        Text Editor <
+        /div>
     )
 }
