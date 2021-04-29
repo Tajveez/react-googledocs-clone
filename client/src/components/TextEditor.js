@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Quill from 'quill'
 import 'quill/dist/quill.snow.css'
 import { io } from 'socket.io-client'
@@ -15,12 +15,14 @@ export default function TextEditor() {
         ["image", "blockquote", "code-block"],
         ["clean"],
     ]
+    const [socket, setSocket] = useState()
+    const [quill, setQuill] = useState()
 
     useEffect(() => {
-        const socket = io('http://localhost:3001')
-
+        const s = io('http://localhost:3001')
+        setSocket(s)
         return () => {
-            socket.disconnect()
+            s.disconnect()
         }
     }, [])
 
@@ -29,14 +31,14 @@ export default function TextEditor() {
         wrapper.innerHTML = ''
         const editor = document.createElement('div')
         wrapper.append(editor)
-        new Quill(editor, {
+        const q = new Quill(editor, {
             theme: 'snow',
             modules: {
                 toolbar: TOOLBAR_OPTIONS
             },
         })
-
-        // change2
+        setQuill(q)
+            // change2
     }, [])
     return ( <
         div className = "container"
