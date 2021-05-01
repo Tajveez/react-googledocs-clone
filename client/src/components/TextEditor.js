@@ -40,10 +40,8 @@ export default function TextEditor() {
         setQuill(q)
             // change2
     }, [])
-    return ( <
-        div className = "container"
+    return ( <div className = "container"
         ref = { wrapperRef } >
-        Text Editor <
-        /div>
+        Text Editor </div>
     )
 }
