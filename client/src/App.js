@@ -9,9 +9,16 @@ import { v4 as uuidv4 } from "uuid";
 // main componenet
 function App() {
   return (
-    <div className="App">
-      <TextEditor />
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <Redirect to={`/documents/${uuidv4()}`} />
+        </Route>
+        <Route path="/documents/:id">
+          <TextEditor />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
