@@ -14,6 +14,7 @@ const TOOLBAR_OPTIONS = [
   ["image", "blockquote", "code-block"],
   ["clean"],
 ];
+const SAVE_INTERVAL_MS = 3000;
 
 export default function TextEditor() {
   const { id: documentId } = useParams();
@@ -48,6 +49,17 @@ export default function TextEditor() {
     quill.on("text-change", handler);
     return () => {
       quill.off("text-change", handler);
+    };
+  }, [socket, quill]);
+
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+    const interval = setInterval(() => {
+      socket.emit("save-document", quill.getContents());
+    }, SAVE_INTERVAL_MS);
+
+    return () => {
+      clearInterval(interval);
     };
   }, [socket, quill]);
 
